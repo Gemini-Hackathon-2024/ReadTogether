@@ -7,10 +7,11 @@ on:
       - main
   workflow_dispatch:
 
+
 # There are two jobs in this workflow - build and deploy
 jobs:
- # Builds the application for production. 
- # You should configure this environment as close as possible to the production environment, e.g. using Ubuntu for Linux apps, using the same Node version
+  # Builds the application for production. 
+  # You should configure this environment as close as possible to the production environment, e.g. using Ubuntu for Linux apps, using the same Node version
   build:
     runs-on: ubuntu-latest
 
@@ -35,8 +36,9 @@ jobs:
         with:
           name: node-app
           path: frontend/dist # This should be your distribution path, not the root path
+          if-no-files-found: warn
  
- # Deploy the application to Azure
+  # Deploy the application to Azure
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -57,4 +59,4 @@ jobs:
           app-name: readtogether
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }} # Publish profile should always be stored as secrets in your repository Settings - Secrets and variables - Actions - secrets
-          package: frontend/dist
+          package: node-app # Using the artifact name as the package
