@@ -51,9 +51,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: node-app
-
-      - name: Extract artifact
-        run: unzip -q node-app.zip -d node-app
+          path: ./node-app
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -62,4 +60,4 @@ jobs:
           app-name: readtogether
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }} # Publish profile should always be stored as secrets in your repository Settings - Secrets and variables - Actions - secrets
-          package: node-app
+          package: ./node-app
