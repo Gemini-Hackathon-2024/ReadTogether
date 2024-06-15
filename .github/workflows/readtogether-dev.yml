@@ -58,6 +58,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: readtogether-dev
-          slot-name: 'Dev'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DEV}} # Publish profile should always be stored as secrets in your repository Settings - Secrets and variables - Actions - secrets
           package: ./node-app
