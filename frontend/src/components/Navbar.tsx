@@ -1,26 +1,29 @@
 import { motion } from "framer-motion";
 import PricingButton from "./ui/PricingButton";
+import "../assets/css/themeSlider.css";
 
-const Navbar = () => {
+const Navbar = ({
+  handleThemeChange,
+  initialTheme,
+}: {
+  handleThemeChange: any;
+  initialTheme: string;
+}) => {
   return (
     <>
       <div className="fixed z-40">
         <section className="relative mx-auto">
-          <nav className="flex justify-between bg-gray-200 dark:bg-gray-900 text-white w-screen">
-            <div className="px-2 xl:px-12 py-5 flex w-full items-center">
+          <nav className="flex justify-between bg-white dark:bg-gray-900 text-white w-screen">
+            <div className="px-2 xl:px-12 py-3 flex w-full items-center">
               <motion.a
-                className="text-3xl font-bold font-heading"
+                className="lg:text-3xl text-xl font-bold font-heading dark:text-white text-black"
                 href="#"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
                 Read
-                <span
-                  style={{
-                    color: "#89CFF0",
-                  }}
-                >
+                <span className="dark:text-[#89d3f0] text-[#89aaf0]">
                   Together
                 </span>
               </motion.a>
@@ -30,7 +33,10 @@ const Navbar = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.1 }}
                 >
-                  <a className="hover:text-gray-200" href="#">
+                  <a
+                    className="hover:text-gray-200 dark:text-white text-black"
+                    href="#"
+                  >
                     Home
                   </a>
                 </motion.li>
@@ -39,7 +45,10 @@ const Navbar = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
                 >
-                  <a className="hover:text-gray-200" href="#">
+                  <a
+                    className="hover:text-gray-200  dark:text-white text-black"
+                    href="#"
+                  >
                     Global Pals
                   </a>
                 </motion.li>
@@ -56,7 +65,10 @@ const Navbar = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.4 }}
                 >
-                  <a className="hover:text-gray-200" href="#">
+                  <a
+                    className="hover:text-gray-200 dark:text-white text-black"
+                    href="#"
+                  >
                     Contact Us
                   </a>
                 </motion.li>
@@ -133,11 +145,23 @@ const Navbar = () => {
                   </svg>
                 </motion.a>
             </div> */}
-              <button className="w-40 h-12 bg-white cursor-pointer rounded-3xl border-2 border-[#89CFF0] shadow-[inset_0px_-2px_0px_1px_#89CFF0] group hover:bg-[#89CFF0] transition duration-300 ease-in-out">
+              {/* <button className="w-40 h-12 bg-white cursor-pointer rounded-3xl border-2 border-[#89CFF0] shadow-[inset_0px_-2px_0px_1px_#89CFF0] group hover:bg-[#89CFF0] transition duration-300 ease-in-out">
                 <span className="font-medium text-[#333] group-hover:text-white">
                   Login
                 </span>
-              </button>
+              </button> */}
+              <label className="switch">
+                {initialTheme === "dark" ? (
+                  <input
+                    type="checkbox"
+                    onClick={handleThemeChange}
+                    defaultChecked
+                  />
+                ) : (
+                  <input type="checkbox" onClick={handleThemeChange} />
+                )}
+                <span className="slider"></span>
+              </label>
             </div>
             <motion.a
               className="xl:hidden flex mr-6 items-center"

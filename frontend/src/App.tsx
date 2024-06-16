@@ -1,35 +1,68 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useEffect } from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import HomePage from "./pages/HomePage.tsx";
+import Login from "./pages/Login.tsx";
+import ErrorPage from "./pages/ErrorPage.tsx";
+import Navbar from "./components/Navbar.tsx";
+import Reader from "./pages/Reader.tsx";
+import Profile from "./pages/Profile.tsx";
+import { ThemeProvider } from "@material-tailwind/react";
+import { customTheme } from "./theme.tsx";
+import { useAppDispatch, useAppSelector } from "./state/hooks.ts";
+import { RootState } from "./state/store.ts";
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <HomePage />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/reader",
+    element: <Reader />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
+  },
+]);
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  // const [theme, setTheme] = React.useState(
+  //   localStorage.getItem("theme") || "light"
+  // );
 
+  const theme = useAppSelector((state: RootState) => state.theme.theme);
+  const dispatch = useAppDispatch();
+  const handleThemeChange = () => {
+    dispatch({
+      type: "theme/setTheme",
+      payload: theme === "light" ? "dark" : "light",
+    });
+  };
+  useEffect(() => {
+    if (theme === "light") {
+      document.documentElement.classList.remove("dark");
+    } else {
+      document.documentElement.classList.add("dark");
+    }
+  }, [theme]);
+
+  // const handleThemeChange = () => {
+  //   setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+  //   console.log("Theme changed");
+  //   console.log(theme);
+  //   localStorage.setItem("theme", theme);
+  // };
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Navbar handleThemeChange={handleThemeChange} initialTheme={theme} />
+      <RouterProvider router={router} />
     </>
-  )
+  );
 }
-
-export default App

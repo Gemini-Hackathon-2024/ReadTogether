@@ -1,11 +1,12 @@
 import { ReactReader } from "react-reader";
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import Discussions from "../components/Discussions";
 import { type Rendition } from "epubjs";
 import type { CSSProperties } from "react";
 import Notes from "../components/Notes";
-type ITheme = "light" | "dark";
+import { useAppSelector } from "../state/hooks";
+
 interface IReactReaderStyle {
   container: CSSProperties;
   readerArea: CSSProperties;
@@ -28,10 +29,25 @@ interface IReactReaderStyle {
   loadingView: CSSProperties;
   tocButtonBottom: CSSProperties;
 }
+function updateTheme(rendition: Rendition, theme: string) {
+  const themes = rendition.themes;
+  switch (theme) {
+    case "dark": {
+      themes.override("color", "#fff");
+      themes.override("background", "#000");
+      break;
+    }
+    case "light": {
+      themes.override("color", "#000");
+      themes.override("background", "#fff");
+      break;
+    }
+  }
+}
 const Reader = () => {
   const [location, setLocation] = useState<string | number>(0);
   const [open, setOpen] = useState(0);
-
+  const rendition = useRef<Rendition | undefined>(undefined);
   const handleOpen = (value: number) => {
     if (open == value) {
       setOpen(0);
@@ -39,6 +55,13 @@ const Reader = () => {
       setOpen(value);
     }
   };
+
+  const theme = useAppSelector((state) => state.theme.theme);
+  useEffect(() => {
+    if (rendition.current) {
+      updateTheme(rendition.current, theme);
+    }
+  }, [theme]);
   return (
     <div className="h-screen pt-24 pb-2 pl-2 pr-2 ">
       <div className="flex h-full md:flex-row flex-col-reverse">
@@ -48,40 +71,12 @@ const Reader = () => {
             location={location}
             locationChanged={(epubcfi: string) => setLocation(epubcfi)}
             title={"Alice in wonderland"}
-            readerStyles={darkReaderTheme}
-            getRendition={(rendition: Rendition) => {
-              rendition.themes.default({
-                "::selection": {
-                  background: "rgba(255,235,59, 0.5)",
-                },
-                body: {
-                  color: "white",
-                  fontSize: "1.3em",
-                  lineHeight: "1.6",
-                  backgroundColor: "black",
-                  background: "black",
-                },
-                p: {
-                  margin: "0",
-                  padding: "0",
-                },
-              });
-              rendition.themes.register("light", {
-                "::selection": {
-                  background: "rgba(255,235,59, 0.5)",
-                },
-                body: {
-                  color: "black",
-                  fontSize: "1.3em",
-                  lineHeight: "1.6",
-                  backgroundColor: "white",
-                  background: "white",
-                },
-                p: {
-                  margin: "0",
-                  padding: "0",
-                },
-              });
+            readerStyles={
+              theme === "light" ? lightReaderTheme : darkReaderTheme
+            }
+            getRendition={(_rendition) => {
+              updateTheme(_rendition, theme);
+              rendition.current = _rendition;
             }}
           />
           {open == 1 && (
@@ -472,6 +467,13 @@ const ReactReaderStyle: IReactReaderStyle = {
   },
 };
 
+const lightReaderTheme: IReactReaderStyle = {
+  ...ReactReaderStyle,
+  readerArea: {
+    ...ReactReaderStyle.readerArea,
+    transition: undefined,
+  },
+};
 const darkReaderTheme: IReactReaderStyle = {
   ...ReactReaderStyle,
   arrow: {
