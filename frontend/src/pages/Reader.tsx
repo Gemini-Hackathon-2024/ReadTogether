@@ -6,6 +6,7 @@ import { type Rendition } from "epubjs";
 import type { CSSProperties } from "react";
 import Notes from "../components/Notes";
 import { useAppSelector } from "../state/hooks";
+import useLocalStorageState from "use-local-storage-state";
 
 interface IReactReaderStyle {
   container: CSSProperties;
@@ -45,7 +46,12 @@ function updateTheme(rendition: Rendition, theme: string) {
   }
 }
 const Reader = () => {
-  const [location, setLocation] = useState<string | number>(0);
+  const [location, setLocation] = useLocalStorageState<string | number>(
+    "persist-location",
+    {
+      defaultValue: 0,
+    }
+  );
   const [open, setOpen] = useState(0);
   const rendition = useRef<Rendition | undefined>(undefined);
   const handleOpen = (value: number) => {
