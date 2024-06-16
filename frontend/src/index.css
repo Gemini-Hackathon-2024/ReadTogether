@@ -27,5 +27,6 @@ body{
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  background: #0E9BFF;
+background: #000000cc;
 }
