@@ -7,6 +7,14 @@ import type { CSSProperties } from "react";
 import Notes from "../components/Notes";
 import { useAppSelector } from "../state/hooks";
 import useLocalStorageState from "use-local-storage-state";
+import ContextMenu from "../lib/ContextMenu";
+import { Contents, NavItem } from "epubjs";
+
+const initialContextMenu = {
+  show: false,
+  x: 0,
+  y: 0,
+};
 
 interface IReactReaderStyle {
   container: CSSProperties;
@@ -68,30 +76,110 @@ const Reader = () => {
       updateTheme(rendition.current, theme);
     }
   }, [theme]);
-  return (
-    <div className="h-screen pt-24 pb-2 pl-2 pr-2 ">
-      <div className="flex h-full md:flex-row flex-col-reverse">
-        <div className="flex-1 bg-pink-500 h-full relative">
-          <ReactReader
-            url="https://react-reader.metabits.no/files/alice.epub"
-            location={location}
-            locationChanged={(epubcfi: string) => setLocation(epubcfi)}
-            title={"Alice in wonderland"}
-            readerStyles={
-              theme === "light" ? lightReaderTheme : darkReaderTheme
+  const [contextMenuValue, setContextMenuValue] = useState("");
+  const handleContextMenuValue = (value: string) => {
+    setContextMenuValue(value);
+  };
+  const [contextMenu, setcontextMenu] = useState(initialContextMenu);
+
+  useEffect(() => {
+    if (rendition) {
+      // rendition.on("selected", setRenderSelection);
+      rendition.current?.on(
+        "selected",
+        async (epubcfi: string, iframe: Window) => {
+          console.log(epubcfi);
+          iframe.document.documentElement.addEventListener(
+            "contextmenu",
+            (event: MouseEvent) => {
+              console.log("Stopping contextual menu coming from epubjs iframe");
+              event.preventDefault();
+              setcontextMenu((prev) => ({
+                show: true,
+                x: event.pageX,
+                y: event.pageY,
+              }));
             }
-            getRendition={(_rendition) => {
-              updateTheme(_rendition, theme);
-              rendition.current = _rendition;
-            }}
-          />
-          {open == 1 && (
+          );
+        }
+      );
+      return () => {};
+    }
+  }, [rendition]);
+  function handleContextMenu(e: React.MouseEvent) {
+    e.preventDefault();
+    console.log("right click");
+    const { clientX, clientY } = e;
+    setcontextMenu((prev) => ({
+      show: true,
+      x: clientX,
+      y: clientY,
+    }));
+  }
+
+  function handleContextMenuClose() {
+    setcontextMenu(initialContextMenu);
+  }
+  return (
+    <div className="h-screen pt-16 md:pb-2 md:pl-2 md:pr-2 ">
+      <div className="flex h-full md:flex-row flex-col-reverse">
+        <div className="flex-1 bg-pink-500 h-full relative reader">
+          <div
+            className="h-full w-full relative reader"
+            onContextMenu={handleContextMenu}
+          >
+            {contextMenu.show && (
+              <ContextMenu
+                x={contextMenu.x}
+                y={contextMenu.y}
+                close={handleContextMenuClose}
+                value={(val: string) => {
+                  handleContextMenuValue(val);
+                  console.log("Context Menu Value: ", contextMenuValue);
+                }}
+              />
+            )}
+            <ReactReader
+              url="https://react-reader.metabits.no/files/alice.epub"
+              location={location}
+              locationChanged={(epubcfi: string) => setLocation(epubcfi)}
+              title={"Alice in wonderland"}
+              readerStyles={
+                theme === "light" ? lightReaderTheme : darkReaderTheme
+              }
+              getRendition={(_rendition) => {
+                updateTheme(_rendition, theme);
+                rendition.current = _rendition;
+                _rendition.hooks.content.register((contents: Contents) => {
+                  const body = contents.window.document.querySelector("body");
+                  if (body) {
+                    body.onkeydown = (e) => {
+                      if (e.key === "Escape") {
+                        setcontextMenu(initialContextMenu);
+                      }
+                    };
+                    body.oncontextmenu = (e) => {
+                      console.log(
+                        "Stopping contextual menu coming from epubjs"
+                      );
+                      e.preventDefault();
+                      setcontextMenu((prev) => ({
+                        show: true,
+                        x: e.clientX,
+                        y: e.clientY,
+                      }));
+                    };
+                  }
+                });
+              }}
+            />
+          </div>
+          {open != 0 && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               style={{
-                background: "gray",
                 color: "white",
                 padding: "10px",
                 position: "absolute",
@@ -100,49 +188,10 @@ const Reader = () => {
                 zIndex: 1,
                 height: "100%",
               }}
-              className="h-full bg-gray-500 w-full md:w-1/2"
+              className="h-full bg-gray-300 dark:bg-gray-900 w-full md:w-1/2"
             >
-              <Discussions />
-            </motion.div>
-          )}
-          {open == 2 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              style={{
-                background: "gray",
-                color: "white",
-                padding: "10px",
-                position: "absolute",
-                top: "0",
-                right: "0",
-                zIndex: 1,
-                height: "100%",
-              }}
-              className="h-full bg-gray-500 w-full md:w-1/2"
-            >
-              <Notes />
-            </motion.div>
-          )}
-          {open == 1 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              style={{
-                background: "gray",
-                color: "white",
-                padding: "10px",
-                position: "absolute",
-                top: "0",
-                right: "0",
-                zIndex: 1,
-                height: "100%",
-              }}
-              className="h-full bg-gray-500 w-full md:w-1/2"
-            >
-              <Discussions />
+              {open == 1 && <Discussions />}
+              {open == 2 && <Notes />}
             </motion.div>
           )}
         </div>

@@ -15,7 +15,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+
 }
+
 
 body{
   color: rgba(220, 220, 220, 0.87);
@@ -23,10 +25,16 @@ body{
   margin: 0;
 
 }
+
 #root{
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #0E9BFF;
-background: #000000cc;
+
 }
+
+#root .dark{
+  background-color: black;
+  color: rgba(255, 255, 255, 0.87);
+}
+

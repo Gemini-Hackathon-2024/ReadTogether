@@ -13,7 +13,7 @@ const Navbar = ({
     <>
       <div className="fixed z-40">
         <section className="relative mx-auto">
-          <nav className="flex justify-between bg-white dark:bg-gray-900 text-white w-screen">
+          <nav className="flex justify-between bg-gray-100 dark:bg-gray-900 text-white w-screen">
             <div className="px-2 xl:px-12 py-3 flex w-full items-center">
               <motion.a
                 className="lg:text-3xl text-xl font-bold font-heading dark:text-white text-black"

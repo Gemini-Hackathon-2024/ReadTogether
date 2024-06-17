@@ -61,8 +61,10 @@ export default function App() {
   // };
   return (
     <>
-      <Navbar handleThemeChange={handleThemeChange} initialTheme={theme} />
-      <RouterProvider router={router} />
+      <div className="dark:bg-black bg-white">
+        <Navbar handleThemeChange={handleThemeChange} initialTheme={theme} />
+        <RouterProvider router={router} />
+      </div>
     </>
   );
 }
