@@ -9,8 +9,8 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: 'web.config', // path to your web.config
-          dest: '' // destination directory, '' means root of the build directory
+          src: 'web.config',
+          dest: '' // Root of the build directory
         }
       ]
     })
@@ -20,4 +20,7 @@ export default defineConfig({
       plugins: [tailwindcss],
     },
   },
+  build: {
+    outDir: 'dist', // Ensure this matches your distribution path
+  }
 })
