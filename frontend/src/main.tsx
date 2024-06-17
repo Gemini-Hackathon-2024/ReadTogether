@@ -4,8 +4,9 @@ import "./index.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/HomePage.tsx";
-import Login from "./pages/Login.tsx";
+import Login from "./pages/LoginPage/Login.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
+import SignUp from "./pages/SignUpPage/SignUp.tsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
+  {
+    path:"/signup",
+    element:<SignUp/>
+  }
 ]);
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
