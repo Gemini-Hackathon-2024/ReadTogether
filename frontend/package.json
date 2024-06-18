@@ -1,6 +1,5 @@
 {
   "name": "frontend",
-  "homepage": "https://readtogether-dev.azurewebsites.net",
   "private": true,
   "version": "0.0.0",
   "type": "module",
