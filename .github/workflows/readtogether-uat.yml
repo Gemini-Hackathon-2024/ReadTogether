@@ -1,4 +1,4 @@
-name: Build and deploy Node.js app to Azure Web App - readtogether-uat
+name: readtogether-uat
 
 # Run the workflow whenever change is pushed into the main branch
 on:

@@ -4,8 +4,9 @@ const SignUp = () => {
   return (
     <>
       <div className="page-container">
-        <div className="main-container">
+        <div className="signup-main-container">
           <div className="signup-container-header">Sign Up</div>
+          <div className="login-input-container">
           <div>
             <label
               htmlFor="email-input"
@@ -45,11 +46,13 @@ const SignUp = () => {
               required
             />
           </div>
+          </div>
           <div className="button-container">
             <div className="custom-signup-button">
+
               <button
                 type="button"
-                className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 signup-button-set"
               >
                 Sign Up
               </button>
@@ -58,7 +61,7 @@ const SignUp = () => {
             <div className="google-signup-button">
               <button
                 type="button"
-                className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center"
+                className="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center signup-button-set"
               >
                 <svg
                   className="w-4 h-4 me-2"
@@ -75,10 +78,11 @@ const SignUp = () => {
                 </svg>
                 Sign in with Google
               </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+
     </>
   );
 };
