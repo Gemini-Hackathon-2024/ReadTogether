@@ -1,0 +1,104 @@
+:root {
+  --nextui-default-100: hsl(240, 3.7%, 15.88%);
+}
+
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-button-set {
+  font-size: 14px;
+}
+
+.login-main-container {
+  width: 25rem;
+  background: linear-gradient(
+    96.22deg,
+    rgba(26, 26, 26, 0.8),
+    hsla(0, 0%, 6%, 0.8)
+  );
+  border-radius: 20px;
+  overflow-x: hidden;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.login-container-header {
+  color: white;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.login-input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-input-container div {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.button-container {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Apply the color variable to the input textbox */
+input[type="text"],
+input[type="password"] {
+  background-color: var(--nextui-default-100);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+  .page-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .login-main-container {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-sizing: border-box;
+  }
+
+  .login-container-header {
+    font-size: 20px;
+  }
+
+  .login-button-set {
+    font-size: 14px;
+  }
+
+  .button-container {
+    margin-bottom: 2rem;
+  }
+}
+
+/* Media query for desktop devices */
+@media (min-width: 769px) {
+  .login-main-container {
+    width: 30rem;
+    height: auto;
+    padding: 2rem;
+    border-radius: 20px;
+  }
+
+  .login-container-header {
+    font-size: 20px;
+  }
+}
