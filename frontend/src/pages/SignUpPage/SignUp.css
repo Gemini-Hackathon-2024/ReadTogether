@@ -5,22 +5,14 @@
   height: 100vh;
 }
 
-.signup-button-set {
-  font-size: 14px;
-}
-
-.signup-main-container {
+.main-container {
   width: 30rem;
-  height: 35rem;
+  height: 30rem;
+  background: linear-gradient(90deg, #242424 0%, rgba(36, 36, 36, 0.8) 60%);
   border-radius: 20px;
   overflow-x: hidden;
-  padding: 2rem;
+  padding: 1rem;
   box-sizing: border-box;
-  background: linear-gradient(
-    96.22deg,
-    rgba(26, 26, 26, 0.8),
-    hsla(0, 0%, 6%, 0.8)
-  );
 }
 
 .signup-container-header {
@@ -29,12 +21,6 @@
   margin-bottom: 1rem;
   font-size: 18px;
   font-weight: 600;
-}
-
-.signup-input-container{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .button-container {

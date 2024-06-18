@@ -1,4 +1,4 @@
-name: readtogether production
+name: Build and deploy Node.js app to Azure Web App - readtogether
 
 # Run the workflow whenever change is pushed into the main branch
 on:
